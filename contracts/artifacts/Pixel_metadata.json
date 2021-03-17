@@ -307,7 +307,13 @@
 					}
 				],
 				"name": "mint",
-				"outputs": [],
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
 				"stateMutability": "payable",
 				"type": "function"
 			},
@@ -827,11 +833,11 @@
 			]
 		},
 		"localhost/contracts/Pixel.sol": {
-			"keccak256": "0x7f2a655fc967c2a6bc0c2b901cbd14c79b000c92d92b79d28ca4ba3aa9ce4d0a",
+			"keccak256": "0x31c83c7bde7d43a4795c1bd83d51ae7805cade0ea0d8bfe4602bcde15af72ca5",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://45277bce04bf14e651b8655e331626809cbbe102b970cb6f663dab797599d3e9",
-				"dweb:/ipfs/QmPgcpn7ToqJQzccDUGW9ZwZBVfSL2vz6wupxGQXkqTgcj"
+				"bzz-raw://9602301fd49e82912b7aa5233ae81be4ce1bdc44aca21e53032c09047008ab52",
+				"dweb:/ipfs/QmbqnpbD8Po5FLSgbXF7bGxEgVTsPFv4x5WftAwJBPyZ7v"
 			]
 		}
 	},

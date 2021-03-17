@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.4.0/contracts/token/ERC721/ERC721.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.4.0/contracts/utils/Counters.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/utils/Counters.sol";
 
 contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
     using Counters for Counters.Counter;
@@ -44,7 +44,7 @@ contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
         dev2Address = payable(msg.sender);
     }
     
-    function mint(uint256 row, uint256 col) public payable {
+    function mint(uint256 row, uint256 col) public payable returns (uint256) {
         require(msg.value >= 100000000000000000, "Too cheap");
         require(row >= 0 && row < 100 && col >= 0 && col < 100, "Out of bound");
         require(pixelMetadata[row*100 + col].tokenId == 0, "Out of stock");
@@ -66,6 +66,8 @@ contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
         dev2Address.transfer(halfValue);
         
         emit Minted(msg.sender, newTokenId, pixelIndex);
+        
+        return newTokenId;
     }
     
     function updateIpfsHash(uint256 _index, string memory _ipfsHash) public onlyPixelOwner(_index) {

@@ -7,12 +7,40 @@ import "../contracts/Pixel.sol";
 
 // File name has to end with '_test.sol', this file can contain more than one testSuite contracts
 contract testSuite {
+    Pixel pixel;
 
     /// 'beforeAll' runs before all other tests
     /// More special functions are: 'beforeEach', 'beforeAll', 'afterEach' & 'afterAll'
+    /// Custom Transaction Context
+    /// See more: https://remix-ide.readthedocs.io/en/latest/unittesting.html#customization
     function beforeAll() public {
         // Here should instantiate tested contract
-        Assert.equal(uint(1), uint(1), "1 should be equal to 1");
+        pixel = new Pixel();
+        Assert.equal(pixel.masterAdminAddress(), address(this), "Invalid sender");
+    }
+    
+    /// Custom Transaction Context
+    /// See more: https://remix-ide.readthedocs.io/en/latest/unittesting.html#customization
+    /// #sender: account-2
+    /// #value: 100000000000000000
+    function checkNormalFlow() public payable {
+        // account index varies 0-9, value is in wei
+        Assert.equal(msg.sender, TestsAccounts.getAccount(2), "Invalid sender");
+        Assert.equal(msg.value, 100000000000000000, "Invalid value");
+        
+        uint256 tokenId = pixel.mint{value:msg.value}(20, 30);
+        
+        Assert.equal(pixel.ownerOf(tokenId), TestsAccounts.getAccount(2), "Invalid owner");
+    }
+    
+    /// Custom Transaction Context
+    /// See more: https://remix-ide.readthedocs.io/en/latest/unittesting.html#customization
+    /// #sender: account-3
+    /// #value: 10000000000000000
+    function checkCheaperMint() public payable {
+        // account index varies 0-9, value is in wei
+        Assert.equal(msg.sender, TestsAccounts.getAccount(3), "Invalid sender");
+        Assert.equal(msg.value, 10000000000000000, "Invalid value");
     }
 
     function checkSuccess() public {
