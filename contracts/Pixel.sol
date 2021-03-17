@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0;
+pragma solidity >=0.7.0;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/utils/Counters.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.4.0/contracts/token/ERC721/ERC721.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v3.4.0/contracts/utils/Counters.sol";
 
 contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
     using Counters for Counters.Counter;
+    
+    event Minted(address owner, uint256 tokenId, uint256 pixelIndex);
+    event IpfsHashUpdated(uint256 pixelIndex, string ipfsHash);
     
     address public masterAdminAddress;
     address payable public dev1Address;
@@ -19,17 +22,19 @@ contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
     Counters.Counter public _tokenIds;
     
     struct PixelMetadata {
-        address payable owner;
         uint256 tokenId;
-        
         string ipfsHash;
     }
     
     mapping(uint256 => PixelMetadata) public pixelMetadata;
     mapping(uint256 => uint256) public tokenIdToPixelIndex;
     
+    function getPixelOwner(uint256 _index) public view returns (address) {
+        return ownerOf(pixelMetadata[_index].tokenId);
+    }
+    
     modifier onlyPixelOwner(uint256 _index) {
-        require(pixelMetadata[_index].owner == msg.sender, "Only pixel owner");
+        require(getPixelOwner(_index) == msg.sender, "Only pixel owner");
         _;
     }
     
@@ -42,27 +47,30 @@ contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
     function mint(uint256 row, uint256 col) public payable {
         require(msg.value >= 100000000000000000, "Too cheap");
         require(row >= 0 && row < 100 && col >= 0 && col < 100, "Out of bound");
-        require(pixelMetadata[row*100 + col].owner == address(0), "Out of stock");
+        require(pixelMetadata[row*100 + col].tokenId == 0, "Out of stock");
         
         _tokenIds.increment();
 
+        // tokenId start at 1
         uint256 newTokenId = _tokenIds.current();
         _safeMint(msg.sender, newTokenId);
         
         uint256 pixelIndex = row*100 + col;
         
         tokenIdToPixelIndex[newTokenId] = pixelIndex;
-        pixelMetadata[pixelIndex].owner = payable(msg.sender);
         pixelMetadata[pixelIndex].tokenId = newTokenId;
         
         // Transfer money to dev address
         uint256 halfValue = msg.value / 2;
         dev1Address.transfer(halfValue);
         dev2Address.transfer(halfValue);
+        
+        emit Minted(msg.sender, newTokenId, pixelIndex);
     }
     
     function updateIpfsHash(uint256 _index, string memory _ipfsHash) public onlyPixelOwner(_index) {
         pixelMetadata[_index].ipfsHash = _ipfsHash;
+        emit IpfsHashUpdated(_index, _ipfsHash);
     }
     
     function updateMasterAdmin(address _newAddress) public onlyMasterAdmin {
