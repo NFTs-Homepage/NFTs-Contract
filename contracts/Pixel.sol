@@ -1,8 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/utils/Counters.sol";
+// For remix
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
+// import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/utils/Counters.sol";
+
+// For truffle
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
     using Counters for Counters.Counter;
