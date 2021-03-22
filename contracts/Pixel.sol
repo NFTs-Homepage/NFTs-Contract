@@ -71,7 +71,7 @@ contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
         dev1Address.transfer(halfValue);
         dev2Address.transfer(halfValue);
         
-        emit Minted(msg.sender, newTokenId, pixelIndex);
+        emit Minted(_to, newTokenId, pixelIndex);
         
         return newTokenId;
     }
