@@ -64,6 +64,50 @@
 				"anonymous": false,
 				"inputs": [
 					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "pixelIndex",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "ipfsHash",
+						"type": "string"
+					}
+				],
+				"name": "IpfsHashUpdated",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "pixelIndex",
+						"type": "uint256"
+					}
+				],
+				"name": "Minted",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
 						"indexed": true,
 						"internalType": "address",
 						"name": "from",
@@ -183,6 +227,25 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "_index",
+						"type": "uint256"
+					}
+				],
+				"name": "getPixelOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "address",
 						"name": "owner",
 						"type": "address"
@@ -231,7 +294,13 @@
 					}
 				],
 				"name": "mint",
-				"outputs": [],
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
 				"stateMutability": "payable",
 				"type": "function"
 			},
@@ -277,11 +346,6 @@
 				],
 				"name": "pixelMetadata",
 				"outputs": [
-					{
-						"internalType": "address payable",
-						"name": "owner",
-						"type": "address"
-					},
 					{
 						"internalType": "uint256",
 						"name": "tokenId",
@@ -664,10 +728,11 @@
 			]
 		},
 		"localhost/contracts/Pixel.sol": {
-			"keccak256": "0x3ffa97faf542e206ba431f37bf28614f0b65219d63f0afc6b10f659cd8b23591",
+			"keccak256": "0x12677d6477ed763bff8a4d27be92a3f073ff17740dc79df2c75e282ade6c7884",
+			"license": "MIT",
 			"urls": [
-				"bzz-raw://ad56569e03cd6053817fb10488c3c6ca2fc4910370cd161537014a69d934d712",
-				"dweb:/ipfs/QmRGnCYMDZmMyvhASR5nkwKXdSxrQcx5fM1a7hM8YgsyTo"
+				"bzz-raw://10d75e00d1091bf7236fccee97d0c4b38c956da8a2e459cda6197b1c47d0fb67",
+				"dweb:/ipfs/QmPVKiPqhPwH5GDJ5MdmHohCCWmXrayEiHJopBcHBBZZZ3"
 			]
 		}
 	},
