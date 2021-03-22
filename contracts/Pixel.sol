@@ -49,7 +49,8 @@ contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
         dev2Address = payable(msg.sender);
     }
     
-    function mint(uint256 row, uint256 col) public payable returns (uint256) {
+    function mint(uint256 row, uint256 col, address _to) public payable returns (uint256) {
+
         require(msg.value >= 100000000000000000, "Too cheap");
         require(row >= 0 && row < 100 && col >= 0 && col < 100, "Out of bound");
         require(pixelMetadata[row*100 + col].tokenId == 0, "Out of stock");
@@ -58,7 +59,7 @@ contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
 
         // tokenId start at 1
         uint256 newTokenId = _tokenIds.current();
-        _safeMint(msg.sender, newTokenId);
+        _safeMint(_to, newTokenId);
         
         uint256 pixelIndex = row*100 + col;
         
