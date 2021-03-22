@@ -9,6 +9,7 @@ pragma solidity >=0.7.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+
 contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
     using Counters for Counters.Counter;
     
@@ -49,8 +50,7 @@ contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
         dev2Address = payable(msg.sender);
     }
     
-    function mint(uint256 row, uint256 col, address _to) public payable returns (uint256) {
-
+    function _mintTo(address _to, uint256 row, uint256 col) public payable returns (uint256) {
         require(msg.value >= 100000000000000000, "Too cheap");
         require(row >= 0 && row < 100 && col >= 0 && col < 100, "Out of bound");
         require(pixelMetadata[row*100 + col].tokenId == 0, "Out of stock");
@@ -71,9 +71,13 @@ contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
         dev1Address.transfer(halfValue);
         dev2Address.transfer(halfValue);
         
-        emit Minted(_to, newTokenId, pixelIndex);
+        //emit Minted(msg.sender, newTokenId, pixelIndex);
         
         return newTokenId;
+    }
+    
+    function mint(uint256 row, uint256 col) public payable {
+        _mintTo(msg.sender, row, col);
     }
     
     function updateIpfsHash(uint256 _index, string memory _ipfsHash) public onlyPixelOwner(_index) {
