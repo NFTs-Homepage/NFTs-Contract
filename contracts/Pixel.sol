@@ -13,8 +13,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract Pixel is ERC721("NFTs Homepage Pixel", "PIXEL") {
     using Counters for Counters.Counter;
     
-    event Minted(address owner, uint256 tokenId, uint256 pixelIndex);
-    event IpfsHashUpdated(uint256 pixelIndex, string ipfsHash);
+    event Minted(address indexed owner, uint256 indexed tokenId, uint256 indexed pixelIndex);
+    event IpfsHashUpdated(uint256 indexed pixelIndex, string ipfsHash);
     
     address public masterAdminAddress;
     address payable public dev1Address;
